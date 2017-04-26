@@ -1,6 +1,8 @@
 var RTM = require('satori-sdk-js');
 const request = require('request');
 const _ = require('underscore');
+const fs = require('fs');
+const path = require('path');
 
 var endpoint = 'wss://open-data.api.satori.com';
 var appKey = '7DFC78ABbFbecaAc5d4e7FBE18E1FDE1';
@@ -12,6 +14,10 @@ rtm.on('enter-connected', function() {
 });
 
 var latestRates = null;
+const filepath = path.resolve(__dirname, './latestRates.json');
+if (fs.existsSync(filepath)) {
+    latestRates = JSON.parse(fs.readFileSync(filepath).toString());
+}
 
 var subscription = rtm.subscribe(channel, RTM.SubscriptionMode.SIMPLE);
 subscription.on('rtm/subscription/data', function (pdu) {
@@ -37,8 +43,9 @@ subscription.on('rtm/subscription/data', function (pdu) {
                 let story = {
                     title: `${base} to ${currency} : 1 to ${rates[currency]}`,
                     url: `http://www.xe.com/currencyconverter/convert/?Amount=1&From=${base}&To=${currency}`,
-                    source: 'exchange_rate_miner'
+                    extra: {}
                 };
+                story.extra[currency] = rates[currency];
                 uploadStories.push(story);
             }
         });
@@ -57,13 +64,15 @@ subscription.on('rtm/subscription/data', function (pdu) {
                     return console.error('Error:', err);
                 }
 
-                console.log('Success:', body);
+                if (httpResponse.statusCode === 200) {
+                    fs.writeFileSync(filepath, JSON.stringify(msgObj.rates));
+                }
+
+                console.log(`${httpResponse.statusCode}:`, body);
             });
         }
 
-        if (_.isNull(latestRates)) {
-            latestRates = msgObj.rates;
-        }
+        latestRates = msgObj.rates;
     });
 });
 
