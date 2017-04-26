@@ -1,0 +1,19 @@
+{
+  "name": "exchange_rate_miner",
+  "version": "1.0.0",
+  "description": "Gets update on exchange rates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francisypl/exchange_rate_miner.git"
+  },
+  "author": "Francis Pak Yuen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francisypl/exchange_rate_miner/issues"
+  },
+  "homepage": "https://github.com/francisypl/exchange_rate_miner#readme"
+}
