@@ -4,6 +4,7 @@
   "description": "Gets update on exchange rates",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/francisypl/exchange_rate_miner/issues"
   },
-  "homepage": "https://github.com/francisypl/exchange_rate_miner#readme"
+  "homepage": "https://github.com/francisypl/exchange_rate_miner#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "request": "^2.81.0",
+    "satori-sdk-js": "^1.0.1",
+    "underscore": "^1.8.3"
+  }
 }
